@@ -17,7 +17,7 @@ The data set contained 10,000 movie ratings, produced by 600 users. The data is 
 To run the project following installations and imports are to be made
 
 ```bash
-  python 
+  download python set path to environment variable
   pip install pandas
   pip install sklearn
   pip install scipy

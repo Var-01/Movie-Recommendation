@@ -7,27 +7,27 @@ from flask import render_template
 movies = pd.read_csv("dataset/movies.csv")
 ratings = pd.read_csv("dataset/ratings.csv")
 
-# creating a new dataframe where each column represents each unique userID
-# each row represents each unique movieId
+# creating a new dataframe to distinguish columns and rows
+# each row represents each unique movieId and column represent each unique userId
 final_dataset = ratings.pivot(index= 'movieId',columns = 'userId',values = 'rating')
 
 
-# replace all NaN for 0 to clean dataset
+# cleaning the dataset i.e. replacing all NaN with 0
 final_dataset.fillna(0, inplace = True)
 
-# reduce sparsity of values to avoid huge computing when feeding to model
+# reducing sparsity to avoid huge computation 
 
 csr_data = csr_matrix(final_dataset.values)
 final_dataset.reset_index(inplace = True)
 
-# use KNN to compute similarity with cosine distance metric (over pearson coefficient)
+# use KNN to compute similarity with cosine distance metric
 knn = NearestNeighbors(metric = 'cosine', algorithm = 'brute', n_neighbors = 20, n_jobs = -1)
 knn.fit(csr_data)
 
 # recommendation algorithm function
 # check if movie name input is in database
 # if it exists in database, use recommendation system to find similar movies
-# then we sort them based on their similarity distance and output top 10
+# then we sort them based on their similarity distance and output top 5
 
 app = Flask(__name__)
 
@@ -45,7 +45,7 @@ def get_movie_recommendation(name):
     movie_name=name.title()
     n_movies_to_reccomend = 5
     movie_list = movies[movies['title'].str.contains(movie_name)]
-    if len(movie_list): # if there is a match
+    if len(movie_list):     # if there is a match
         movie_idx = movie_list.iloc[0]['movieId']
         movie_idx = final_dataset[final_dataset['movieId'] == movie_idx].index[0]
         distances, indices = knn.kneighbors(csr_data[movie_idx], n_neighbors = n_movies_to_reccomend + 1)

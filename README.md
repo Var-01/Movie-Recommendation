@@ -1,6 +1,6 @@
 # Movie Recommender
 
-I used Python to build item-based movie recommender systems using KNN algorithm and cosine similarity. I've created functions to run the recommendations based on user inputs.
+I used Python to build item-based movie recommender systems using KNN a prediction based machine learning algorithm . I've created functions to run the recommendations based on user inputs.
 
 ## Data
 
@@ -9,8 +9,7 @@ The data set contained 10,000 movie ratings, produced by 600 users. The data is 
 ## Recommender
 - Item-Based Recommender.
 
-    I built this recommender calculating cosine similarity between movies. The similarity was calculated using two vectors that contained movie ratings.
-
+    I built this recommender using Knn algorithm to give predictions of the movies and then fetching top 5 movies by calculating their cosine distance.
 
 
 ## Installation
